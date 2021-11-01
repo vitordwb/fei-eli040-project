@@ -54,9 +54,9 @@ void handleRoot() {
   server.send(200, "text/html", s); // Envia a pagina web
 }
 void handleADC() {
-  // Ref 1: https://circuits4you.com/2019/01/11/nodemcu-esp8266-arduino-json-parsing-example/
-  // Ref 2: https://circuits4you.com/2019/01/25/arduino-how-to-put-quotation-marks-in-a-string/
-  String data = "{\"Irms\":\""+ String(1) +"\", \"potAparente\":\""+ String(2) +"\", \"potAtiva\":\""+ 
-  String(4) +"\", \"Consumo\":\""+ String(3) +"\"}";
-  server.send(200, "text/plane", data); // Envia os valores JSON para a requisicao ajax do cliente
+// Ref 1: https://circuits4you.com/2019/01/11/nodemcu-esp8266-arduino-json-parsing-example/
+// Ref 2: https://circuits4you.com/2019/01/25/arduino-how-to-put-quotation-marks-in-a-string/
+String data = "{\"Irms\":\""+ String(Irms()) +"\", \"potAparente\":\""+ String(potAparente()) +"\", \"potAtiva\":\""+ 
+String(potAtiva()) +"\", \"Consumo\":\""+ String(Consumo()) +"\"}";
+server.send(200, "text/plane", data); // Envia os valores JSON para a requisicao ajax do cliente
 }
