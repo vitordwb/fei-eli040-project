@@ -10,9 +10,11 @@ unsigned long timer_rfid = millis();
 String read_rfid;
 String ok_rfid_1 = "49bbe96";
 String ok_rfid_2 = "ec0bf79"; // Adicionar quantos cartões forem necessários
-int estado_rele = 0;
-const int LedRele = D8;
-const int rele = D0;
+
+// Acionamento do rele e LED
+int estado_rele = LOW;
+#define LedRele D8;
+#define rele = D0;
 
 void setup() {
   Serial.begin(115200);
@@ -21,6 +23,13 @@ void setup() {
   SPI.begin(); // Inicia o barramento SPI
   mfrc522.PCD_Init(); // Inicia a placa MFRC522
   Serial.println("Sistema bloqueado. Aguardando cartao para leitura...\n");
+
+  // Acionamento do rele/led
+  // Acionamento do rele/led
+  pinMode(LedRele, OUTPUT);
+  pinMode(rele, OUTPUT);
+  digitalWrite(LedRele,HIGH);
+  digitalWrite(rele,LOW);
 }
 
 void loop() {
@@ -30,10 +39,10 @@ void loop() {
 }
 
 void dump_byte_array(byte *buffer, byte bufferSize) {
-read_rfid = "";
-for (byte i = 0; i < bufferSize; i++) {
-read_rfid = read_rfid + String(buffer[i], HEX);
-}
+  read_rfid = "";
+  for (byte i = 0; i < bufferSize; i++) {
+  read_rfid = read_rfid + String(buffer[i], HEX);
+  }
 }
 
 void open_lock() {
@@ -60,6 +69,7 @@ void leitura_rfid() {
   dump_byte_array(mfrc522.uid.uidByte, mfrc522.uid.size);
     Serial.print("\nNumero ID do cartao identificado (hex): ");
     Serial.println(read_rfid);
+    
   if (read_rfid == ok_rfid_1) { // RFID #1
   // Libere o sistema:
     open_lock();
