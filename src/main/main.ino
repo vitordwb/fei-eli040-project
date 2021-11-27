@@ -36,8 +36,8 @@ const int rele = D0;
 #include "index.h" // Conteudo da pagina HTML com javascript
 
 //SSID e Password do seu roteador WiFi
-const char* ssid = "VITOR"; // Variavel que armazena o nome da rede sem fio
-const char* password = "vitor2019!"; // Variavel que armazena a senha da rede sem fio
+const char* ssid = "WIFI_NAME"; // Variavel que armazena o nome da rede sem fio
+const char* password = "WIFI_PASSWORD"; // Variavel que armazena a senha da rede sem fio
 
 ESP8266WebServer server(80);  // Caso tenha problemas com a porta 80, 
                               // utilize outra, por exemplo 8082,
@@ -57,7 +57,7 @@ void setup() {
   pinMode(rele, OUTPUT);
   digitalWrite(LedRele,HIGH);
   digitalWrite(rele,LOW);
-  
+
   // WiFi
   Serial.println("");                               // PULA UMA LINHA NA JANELA SERIAL
   Serial.print("Conectando a ");                    // ESCREVE O TEXTO NA SERIAL
@@ -84,11 +84,12 @@ void setup() {
 }
 
 void loop() {
-  server.handleClient();
 
   //corrente
   corrente = ((analogRead(pino_sct) - 512) / 1024.0 * 3.3 / 20.0 * 2000.0);
   leitura_rfid();
+
+  server.handleClient();
 }
 
 // Rotina executada quando voce acessa o IP do NodeMCU pelo browser
